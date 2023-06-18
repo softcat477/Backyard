@@ -34,6 +34,9 @@ public class PlayerController : MonoBehaviour
     // Drag GUI to visualize drag on screen
     //public GameObject dragVisualizer;
 
+    public delegate void AimEventDelegate(bool isAiming);
+    public event AimEventDelegate AimEvent;
+
     private void Awake() {
         playerInputActions = new PlayerInputActions();
         fireStatus = FireStatus.None;
@@ -111,6 +114,7 @@ public class PlayerController : MonoBehaviour
     private void OnLeftClick(InputAction.CallbackContext ctx) {
         leftClickOrigin = mouseMove.ReadValue<Vector2>();
         fireStatus = FireStatus.Aim;
+        AimEvent?.Invoke(true);
 
         //dragVisualizer.GetComponent<DragVisualizer>().SetAnchor(leftClickOrigin);
         //dragVisualizer.SetActive(true);
@@ -121,6 +125,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void OnLeftRelease(InputAction.CallbackContext ctx) {
         fireStatus = FireStatus.Fire;
+        AimEvent?.Invoke(false);
         //dragVisualizer.SetActive(false);
     }
 

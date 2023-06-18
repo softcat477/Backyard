@@ -31,6 +31,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "DMouseMove",
+                    "type": "Value",
+                    "id": "5f832592-c815-4dc9-afe8-68687d31f167",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -110,6 +119,17 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "f49b5a85-5d62-4c47-bf3d-46bb07b2f4a6",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DMouseMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

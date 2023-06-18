@@ -53,6 +53,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""DMouseMove"",
+                    ""type"": ""Value"",
+                    ""id"": ""5f832592-c815-4dc9-afe8-68687d31f167"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -132,6 +141,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f49b5a85-5d62-4c47-bf3d-46bb07b2f4a6"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DMouseMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -143,6 +163,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_MouseMove = m_Player.FindAction("MouseMove", throwIfNotFound: true);
         m_Player_LeftClick = m_Player.FindAction("LeftClick", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        m_Player_DMouseMove = m_Player.FindAction("DMouseMove", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -207,6 +228,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_MouseMove;
     private readonly InputAction m_Player_LeftClick;
     private readonly InputAction m_Player_Move;
+    private readonly InputAction m_Player_DMouseMove;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -214,6 +236,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @MouseMove => m_Wrapper.m_Player_MouseMove;
         public InputAction @LeftClick => m_Wrapper.m_Player_LeftClick;
         public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputAction @DMouseMove => m_Wrapper.m_Player_DMouseMove;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -232,6 +255,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @DMouseMove.started += instance.OnDMouseMove;
+            @DMouseMove.performed += instance.OnDMouseMove;
+            @DMouseMove.canceled += instance.OnDMouseMove;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -245,6 +271,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @DMouseMove.started -= instance.OnDMouseMove;
+            @DMouseMove.performed -= instance.OnDMouseMove;
+            @DMouseMove.canceled -= instance.OnDMouseMove;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -267,5 +296,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnMouseMove(InputAction.CallbackContext context);
         void OnLeftClick(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
+        void OnDMouseMove(InputAction.CallbackContext context);
     }
 }

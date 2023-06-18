@@ -11,11 +11,17 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerInputActions playerInputActions;
     private InputAction move;
+    private InputAction dmouseMove;
 
     bool isMoving = false;
 
     [Header("Control Settings")]
     public float playerSpeed = 2.5f;
+    public float mouseSensitivity = 2.4f;
+
+    float horizontalAngle = 0.0f;
+
+    private bool isAiming = false;
 
     private void Awake() {
         Instance = this;
@@ -27,16 +33,22 @@ public class PlayerMovement : MonoBehaviour
         move.performed += OnMovePerformed;
         move.canceled += OnMoveCanceled;
         move.Enable();
+        dmouseMove = playerInputActions.Player.DMouseMove;
+        dmouseMove.Enable();
+
+        gameObject.GetComponent<PlayerController>().AimEvent += OnAiming;
     }
 
     private void OnDisable() {
         move.Disable();
+        dmouseMove.Disable();
     }
 
     // Start is called before the first frame update
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        horizontalAngle = transform.localEulerAngles.y;
     }
 
     // Update is called once per frame
@@ -51,7 +63,20 @@ public class PlayerMovement : MonoBehaviour
             dMovePerFrame = transform.TransformDirection(dMovePerFrame);
             characterController.Move(dMovePerFrame);
         }
+
+        Vector2 dmouseMoveInput = dmouseMove.ReadValue<Vector2>();
         
+        if (!isAiming) {
+            float dHorizontalAngle = dmouseMoveInput.x * mouseSensitivity;
+
+            // Rotate player horizontally
+            horizontalAngle += dHorizontalAngle;
+            if (horizontalAngle > 360.0f) horizontalAngle -= 360.0f;
+            if (horizontalAngle < 0.0f) horizontalAngle += 360.0f;
+            transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, 
+                horizontalAngle,
+                transform.localEulerAngles.z);
+        }
     }
 
     private void OnMovePerformed(InputAction.CallbackContext ctx) {
@@ -61,5 +86,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnMoveCanceled(InputAction.CallbackContext ctx) {
         isMoving = false;
+    }
+
+    public void OnAiming(bool _isAiming) {
+        isAiming = _isAiming;
     }
 }
