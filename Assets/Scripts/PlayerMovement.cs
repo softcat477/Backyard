@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public static PlayerMovement Instance {get; protected set;}
 
     CharacterController characterController;
+    public Transform cameraTransform;
 
     private PlayerInputActions playerInputActions;
     private InputAction move;
@@ -20,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public float mouseSensitivity = 2.4f;
 
     float horizontalAngle = 0.0f;
+    float verticalAngle = 0.0f;
 
     private bool isAiming = false;
 
@@ -64,10 +66,11 @@ public class PlayerMovement : MonoBehaviour
             characterController.Move(dMovePerFrame);
         }
 
-        Vector2 dmouseMoveInput = dmouseMove.ReadValue<Vector2>();
-        
+        // Rotate with mouse action
         if (!isAiming) {
+            Vector2 dmouseMoveInput = dmouseMove.ReadValue<Vector2>();
             float dHorizontalAngle = dmouseMoveInput.x * mouseSensitivity;
+            float dVerticalAngle = dmouseMoveInput.y * mouseSensitivity;
 
             // Rotate player horizontally
             horizontalAngle += dHorizontalAngle;
@@ -75,6 +78,13 @@ public class PlayerMovement : MonoBehaviour
             if (horizontalAngle < 0.0f) horizontalAngle += 360.0f;
             transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, 
                 horizontalAngle,
+                transform.localEulerAngles.z);
+
+            // Rotate camera vertically
+            verticalAngle -= dVerticalAngle;
+            verticalAngle = Mathf.Clamp(verticalAngle, -89.0f, 89.0f);
+            cameraTransform.localRotation = Quaternion.Euler(verticalAngle, 
+                cameraTransform.localEulerAngles.y,
                 transform.localEulerAngles.z);
         }
     }

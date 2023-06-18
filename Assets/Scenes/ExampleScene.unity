@@ -1151,7 +1151,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61675597a60e44f15a7de14369165731, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 806373408}
   playerSpeed: 2.5
+  mouseSensitivity: 0.6
 --- !u!4 &1316924137 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2372922100894399792, guid: 71fc23a5321ff3041ab799a7641bc170,
