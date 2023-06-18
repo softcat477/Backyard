@@ -911,7 +911,7 @@ PrefabInstance:
     - target: {fileID: 1782824343737523952, guid: 6ca000ead671ebe449deb210e0a19be8,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1782824343737523953, guid: 6ca000ead671ebe449deb210e0a19be8,
         type: 3}
@@ -1015,7 +1015,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nPoint: 100
   timeStep: 0.041666668
-  indicatorPrefab: {fileID: 2763606229731939446, guid: 62a2558b010f94a88b1074ed72a8834f,
+  indicatorPrefab: {fileID: 7932120658331436562, guid: cee2b429bfdd0465cbb366e7a0c856bc,
     type: 3}
 --- !u!120 &1287340553
 LineRenderer:

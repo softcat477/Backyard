@@ -65,21 +65,16 @@ public class TrajectorySimulator : MonoBehaviour
             if (colliders.Length > 0) {
                 Collider collider = colliders[0];
 
-                Vector3 collisionPoint = collider.ClosestPoint(displacement);
+                Vector3 collisionPoint;
+                if (collider is MeshCollider meshCollider) {
+                    collisionPoint = displacement;
+                }
+                else {
+                    collisionPoint = collider.ClosestPoint(displacement);
+                }
                 Quaternion rotation = Quaternion.FromToRotation(indicatorPrefab.transform.up, collider.transform.up);
                 indicator.transform.position = collisionPoint;
                 indicator.transform.rotation = rotation;
-
-                // Place the indicator to visualize the predicted position
-                // Check the project collides with inner or outer side
-                Vector3 toCollisionPoint = collisionPoint - transform.TransformPoint(offset);
-                bool collideFromOuter = Vector3.Dot(collider.transform.up, toCollisionPoint) < 0;
-                if (collideFromOuter) {
-                    indicator.transform.Translate(Vector3.up * 0.1f);
-                }
-                else {
-                    indicator.transform.Translate(Vector3.up * -0.1f);
-                }
                 break;
             }
             time += timeStep;
