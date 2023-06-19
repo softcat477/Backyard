@@ -13,15 +13,18 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInputActions playerInputActions;
     private InputAction move;
     private InputAction dmouseMove;
+    private InputAction jump;
 
     bool isMoving = false;
 
     [Header("Control Settings")]
     public float playerSpeed = 2.5f;
     public float mouseSensitivity = 2.4f;
+    public float jumpSpeed = 5.0f;
 
     float horizontalAngle = 0.0f;
     float verticalAngle = 0.0f;
+    float verticalSpeed = 0.0f;
 
     private bool isAiming = false;
 
@@ -37,6 +40,11 @@ public class PlayerMovement : MonoBehaviour
         move.Enable();
         dmouseMove = playerInputActions.Player.DMouseMove;
         dmouseMove.Enable();
+        jump = playerInputActions.Player.Jump;
+        jump.Enable();
+        jump.performed += (InputAction.CallbackContext ctx) => {
+            if (characterController.isGrounded) verticalSpeed = jumpSpeed;
+        };
 
         gameObject.GetComponent<PlayerController>().AimEvent += OnAiming;
     }
@@ -44,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnDisable() {
         move.Disable();
         dmouseMove.Disable();
+        jump.Disable();
     }
 
     // Start is called before the first frame update
@@ -86,6 +95,16 @@ public class PlayerMovement : MonoBehaviour
             cameraTransform.localRotation = Quaternion.Euler(verticalAngle, 
                 cameraTransform.localEulerAngles.y,
                 transform.localEulerAngles.z);
+        }
+
+        // Update vertical speed
+        verticalSpeed = verticalSpeed - 9.8f * Time.deltaTime;
+        if (verticalSpeed < -10.0f) verticalSpeed = -10.0f;
+
+        Vector3 verticalMove = new Vector3(0.0f, verticalSpeed * Time.deltaTime, 0.0f);
+        var flag = characterController.Move(verticalMove);
+        if ((flag & CollisionFlags.Below) != 0) {
+            verticalSpeed = 0.0f;
         }
     }
 
