@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInputActions playerInputActions;
     private InputAction move;
     private InputAction dmouseMove;
+    private InputAction mouseMove;
     private InputAction jump;
 
     bool isMoving = false;
@@ -40,6 +41,8 @@ public class PlayerMovement : MonoBehaviour
         move.Enable();
         dmouseMove = playerInputActions.Player.DMouseMove;
         dmouseMove.Enable();
+        mouseMove = playerInputActions.Player.MouseMove;
+        mouseMove.Enable();
         jump = playerInputActions.Player.Jump;
         jump.Enable();
         jump.performed += (InputAction.CallbackContext ctx) => {
@@ -52,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnDisable() {
         move.Disable();
         dmouseMove.Disable();
+        mouseMove.Disable();
         jump.Disable();
     }
 
@@ -78,6 +82,22 @@ public class PlayerMovement : MonoBehaviour
         // Rotate with mouse action
         if (!isAiming) {
             Vector2 dmouseMoveInput = dmouseMove.ReadValue<Vector2>();
+            Vector2 mouseMoveInput = mouseMove.ReadValue<Vector2>();
+
+            if (mouseMoveInput.x < 100.0f) {
+                dmouseMoveInput.x = -1.0f;
+            }
+            else if ((Screen.width - mouseMoveInput.x) < 100.0f){
+                dmouseMoveInput.x = 1.0f;
+            }
+
+            if (mouseMoveInput.y < 100.0f) {
+                dmouseMoveInput.y = -1.0f;
+            }
+            else if ((Screen.height - mouseMoveInput.y) < 100.0f){
+                dmouseMoveInput.y = 1.0f;
+            }
+
             float dHorizontalAngle = dmouseMoveInput.x * mouseSensitivity;
             float dVerticalAngle = dmouseMoveInput.y * mouseSensitivity;
 
