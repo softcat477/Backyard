@@ -911,7 +911,7 @@ PrefabInstance:
     - target: {fileID: 1782824343737523952, guid: 6ca000ead671ebe449deb210e0a19be8,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1782824343737523953, guid: 6ca000ead671ebe449deb210e0a19be8,
         type: 3}
@@ -1058,9 +1058,7 @@ LineRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 50, y: 50, z: 50}
+  m_Positions: []
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.5
@@ -1141,6 +1139,21 @@ MonoBehaviour:
     type: 3}
   prefabOffset: {x: 1, y: 0, z: 1.58}
   trajectorySimulator: {fileID: 1287340552}
+--- !u!114 &1287340560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287340551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61675597a60e44f15a7de14369165731, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 806373408}
+  playerSpeed: 2.5
+  mouseSensitivity: 0.6
 --- !u!4 &1316924137 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2372922100894399792, guid: 71fc23a5321ff3041ab799a7641bc170,
