@@ -140,7 +140,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 97927713}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.64
   m_Height: 9.349247
   m_Direction: 1
@@ -372,7 +372,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 283915266}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.54
   m_Height: 9.349247
   m_Direction: 1
@@ -392,7 +392,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 305682099}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.43
   m_Height: 9.349247
   m_Direction: 1
@@ -881,7 +881,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 1249730201}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.96
   m_Height: 9.349246
   m_Direction: 1
@@ -1154,6 +1154,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 806373408}
   playerSpeed: 2.5
   mouseSensitivity: 0.6
+  jumpSpeed: 5
 --- !u!4 &1316924137 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2372922100894399792, guid: 71fc23a5321ff3041ab799a7641bc170,
@@ -1453,7 +1454,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 2061007527}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.61
   m_Height: 9.349247
   m_Direction: 1
@@ -1465,6 +1466,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2279062239448305332, guid: 71fc23a5321ff3041ab799a7641bc170,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2498423411298637032, guid: 71fc23a5321ff3041ab799a7641bc170,
         type: 3}
       propertyPath: m_RootOrder
