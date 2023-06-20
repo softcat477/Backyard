@@ -72,13 +72,11 @@ public class PlayerController : MonoBehaviour
             //dragVisualizer.GetComponent<DragVisualizer>().SetTrace(releasePosition);
 
             // Use x's offset as the rotated degree of the forward direction
-            // Map mouse's x offset from -200px ~ +200px to -90 degrees ~ +90 degrees
             float degree = Mathf.Clamp(diff.x, -200.0f, 200.0f) * 90 / 200;
 
             // Use y's offset as the magnitude
-            // Map mouse's y offset from -20 px (drag down) ~ 0px to 10 ~ 0
-            float magnitude = Mathf.Clamp(-diff.y, 0, Mathf.Sqrt(200*200*2));
-            magnitude = magnitude / Mathf.Sqrt(200*200*2) * 10;
+            float magnitude = Mathf.Clamp(diff.y, -Mathf.Sqrt(200*200*2), Mathf.Sqrt(200*200*2));
+            magnitude = magnitude / Mathf.Sqrt(200*200*2) * 8 + 8;
 
             // Instantiate and hold a new bullet
             if (launchedBullet == null) {
