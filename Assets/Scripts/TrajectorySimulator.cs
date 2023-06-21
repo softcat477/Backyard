@@ -60,7 +60,7 @@ public class TrajectorySimulator : MonoBehaviour
             simPoints.Add(displacement);
 
             // Stop simulation when hitting a collider
-            Collider[] colliders = Physics.OverlapSphere(displacement, 0.25f);
+            Collider[] colliders = Physics.OverlapSphere(displacement, 0.2f);
             colliders = colliders.Where(c => c.gameObject.CompareTag("Projectile") == false).ToArray();
             if (colliders.Length > 0) {
                 Collider collider = colliders[0];
