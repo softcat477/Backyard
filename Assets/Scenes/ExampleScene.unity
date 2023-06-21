@@ -995,8 +995,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a06b2fe4be41b4cdb80077a8432995f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballPrefab: {fileID: 6386261313703085573, guid: 555b497be5cd94d069cadff39350f41a,
-    type: 3}
+  ballPrefabs:
+  - {fileID: 6386261313703085573, guid: 555b497be5cd94d069cadff39350f41a, type: 3}
+  - {fileID: 5221147269113155747, guid: cf9fd7ee435b647529748dab126217ac, type: 3}
+  - {fileID: 6386261313703085573, guid: 891cf3ad4b5bd45589bcf771e987b226, type: 3}
+  prefabIndex: 0
   prefabOffset: {x: 1, y: 0, z: 1.58}
   trajectorySimulator: {fileID: 1287340552}
 --- !u!114 &1287340560
@@ -1337,6 +1340,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2279062239448305332, guid: 71fc23a5321ff3041ab799a7641bc170,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 66114e7d39d034d35a4f3bbfb9d87033, type: 2}
     - target: {fileID: 2279062239976081460, guid: 71fc23a5321ff3041ab799a7641bc170,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
