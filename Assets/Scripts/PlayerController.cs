@@ -27,6 +27,9 @@ public class PlayerController : MonoBehaviour
     private GameObject launchedBullet;
     List<GameObject> launchedBullets = new List<GameObject>();
     [SerializeField] int prefabIndex = 0;
+    public delegate void ProjectileIndexChangeDelegate(int newIndex);
+    public static  ProjectileIndexChangeDelegate ProjectileIndexChangeEvent;
+
     public Vector3 prefabOffset = new Vector3(-3.25f, 3.49f, 4.26f);
 
     [SerializeField] private TrajectorySimulator trajectorySimulator;
@@ -157,5 +160,6 @@ public class PlayerController : MonoBehaviour
         prefabIndex = (prefabIndex + 1) % ballPrefabs.Length;
         launchedBullet = launchedBullets[prefabIndex];
         launchedBullet.SetActive(true);
+        ProjectileIndexChangeEvent?.Invoke(prefabIndex);
     }
 }
