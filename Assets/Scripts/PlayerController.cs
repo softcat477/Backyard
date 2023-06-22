@@ -17,13 +17,19 @@ public class PlayerController : MonoBehaviour
     private PlayerInputActions playerInputActions;
     private InputAction leftClick;
     private InputAction mouseMove;
+    private InputAction changeProjectile;
 
     // The click position (screen space) when the user enters the Aim state and moves to the Fire state in the next update
     private Vector2 leftClickOrigin;
 
     // Instantiate a new <ballPrefab> GameObject at position + prefabOffset (world space) and let <launchedBullet> keep it
-    public GameObject ballPrefab;
+    public GameObject[] ballPrefabs;
     private GameObject launchedBullet;
+    List<GameObject> launchedBullets = new List<GameObject>();
+    [SerializeField] int prefabIndex = 0;
+    public delegate void ProjectileIndexChangeDelegate(int newIndex);
+    public static  ProjectileIndexChangeDelegate ProjectileIndexChangeEvent;
+
     public Vector3 prefabOffset = new Vector3(-3.25f, 3.49f, 4.26f);
 
     [SerializeField] private TrajectorySimulator trajectorySimulator;
@@ -43,8 +49,19 @@ public class PlayerController : MonoBehaviour
         launchedBullet = null;
         //dragVisualizer.SetActive(false);
 
-        if (!ballPrefab.CompareTag("Projectile")) {
-            Debug.LogError("TrajectorySimulator.cs requires ballPrefab to be tagged as Projectile. Get tag: " + ballPrefab.tag);
+    }
+
+    private void Start() {
+        foreach (GameObject ballPrefab in ballPrefabs) {
+            if (!ballPrefab.CompareTag("Projectile")) {
+                Debug.LogError("TrajectorySimulator.cs requires ballPrefab to be tagged as Projectile. Get tag: " + ballPrefab.tag);
+            }
+            GameObject launchedBullet = Instantiate(ballPrefab, transform.TransformPoint(prefabOffset), transform.rotation);
+            launchedBullet.transform.SetParent(transform);
+            launchedBullet.GetComponent<Rigidbody>().isKinematic = true; // to stop physics simulation or else the projectile will fall
+            launchedBullet.SetActive(false);
+
+            launchedBullets.Add(launchedBullet);
         }
     }
 
@@ -56,6 +73,10 @@ public class PlayerController : MonoBehaviour
 
         mouseMove = playerInputActions.Player.MouseMove;
         mouseMove.Enable();
+
+        changeProjectile = playerInputActions.Player.ChangeProjectile;
+        changeProjectile.performed += OnChangeProjectile;
+        changeProjectile.Enable();
     }
 
     private void OnDisable() {
@@ -72,20 +93,11 @@ public class PlayerController : MonoBehaviour
             //dragVisualizer.GetComponent<DragVisualizer>().SetTrace(releasePosition);
 
             // Use x's offset as the rotated degree of the forward direction
-            // Map mouse's x offset from -200px ~ +200px to -90 degrees ~ +90 degrees
             float degree = Mathf.Clamp(diff.x, -200.0f, 200.0f) * 90 / 200;
 
             // Use y's offset as the magnitude
-            // Map mouse's y offset from -20 px (drag down) ~ 0px to 10 ~ 0
-            float magnitude = Mathf.Clamp(-diff.y, 0, Mathf.Sqrt(200*200*2));
-            magnitude = magnitude / Mathf.Sqrt(200*200*2) * 10;
-
-            // Instantiate and hold a new bullet
-            if (launchedBullet == null) {
-                launchedBullet = Instantiate(ballPrefab, transform.TransformPoint(prefabOffset), transform.rotation);
-                launchedBullet.transform.SetParent(transform);
-                launchedBullet.GetComponent<Rigidbody>().isKinematic = true; // to stop physics simulation or else the projectile will fall
-            }
+            float magnitude = Mathf.Clamp(diff.y, -Mathf.Sqrt(200*200*2), Mathf.Sqrt(200*200*2));
+            magnitude = magnitude / Mathf.Sqrt(200*200*2) * 8 + 8;
 
             // Calculate the applied force. The bullet is always fired at an angle of 45 degree with the horizontal
             force = Quaternion.AngleAxis(-45, launchedBullet.transform.right) * launchedBullet.transform.forward * magnitude;
@@ -102,6 +114,11 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(force, ForceMode.Impulse);
             fireStatus = FireStatus.None;
             launchedBullet = null;
+
+            launchedBullets[prefabIndex] = Instantiate(ballPrefabs[prefabIndex], transform.TransformPoint(prefabOffset), transform.rotation);
+            launchedBullets[prefabIndex].transform.SetParent(transform);
+            launchedBullets[prefabIndex].GetComponent<Rigidbody>().isKinematic = true; // to stop physics simulation or else the projectile will fall
+            launchedBullets[prefabIndex].SetActive(false);
         }
     }
 
@@ -115,6 +132,9 @@ public class PlayerController : MonoBehaviour
         leftClickOrigin = mouseMove.ReadValue<Vector2>();
         fireStatus = FireStatus.Aim;
         AimEvent?.Invoke(true);
+
+        launchedBullet = launchedBullets[prefabIndex];
+        launchedBullet.SetActive(true);
 
         //dragVisualizer.GetComponent<DragVisualizer>().SetAnchor(leftClickOrigin);
         //dragVisualizer.SetActive(true);
@@ -131,5 +151,15 @@ public class PlayerController : MonoBehaviour
 
     private void OnSimulate(Vector3 force, float mass, Transform prefabTransform) {
         trajectorySimulator.StartSimulate(force, mass, prefabOffset, prefabTransform);
+    }
+
+    private void OnChangeProjectile(InputAction.CallbackContext ctx) {
+        if (fireStatus != FireStatus.Aim) return;
+        // Vector2 scroll = changeProjectile.ReadValue<Vector2>();
+        launchedBullet.SetActive(false);
+        prefabIndex = (prefabIndex + 1) % ballPrefabs.Length;
+        launchedBullet = launchedBullets[prefabIndex];
+        launchedBullet.SetActive(true);
+        ProjectileIndexChangeEvent?.Invoke(prefabIndex);
     }
 }
