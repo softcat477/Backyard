@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8584249147669430981}
   - component: {fileID: 8942983187318928085}
   - component: {fileID: 6653941587003415828}
+  - component: {fileID: -3479151953512371636}
   m_Layer: 0
   m_Name: Projectile_simple
   m_TagString: Projectile
@@ -114,3 +115,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-3479151953512371636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6386261313703085573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -2104804342
+      Data2: 1081194242
+      Data3: 920729476
+      Data4: 1524675851
+    Path: event:/SFX/Glass_1
+  Event: 
+  PlayEvent: 7
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 50
