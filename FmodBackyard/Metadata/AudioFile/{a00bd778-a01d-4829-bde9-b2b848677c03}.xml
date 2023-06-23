@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{a00bd778-a01d-4829-bde9-b2b848677c03}">
+		<property name="assetPath">
+			<value>Footsteps Broken Glass 3.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>12.5837641723356</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{2551fed3-27a5-4d73-80c3-f1b99d231bd9}</destination>
+		</relationship>
+	</object>
+</objects>
